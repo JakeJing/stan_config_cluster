@@ -1,0 +1,75 @@
+---
+title: "Test RMD script"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(ggplot2)
+library(gridExtra)
+library(grid)
+library(dplyr)
+library(magrittr)
+library(tidyr) # gather
+library(tibble) # rowtocolumn
+library(rstan)
+library(ape)
+library(phytools)
+library(geiger) # sim.char
+library(purrr) # keep
+library(posterior) # as_draws_df
+library(MASS)
+# library(devtools)
+# install_github("donaldRwilliams/chkptstanr")
+library(chkptstanr)
+# install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+library(cmdstanr)
+set_cmdstan_path("cmdstan-2.29.2")
+```
+
+```{r}
+stan_code <- "
+data {
+  int<lower=0> n;
+  array[n] real y;
+  array[n] real<lower=0> sigma;
+}
+parameters {
+  real mu;
+  real<lower=0> tau;
+  vector[n] eta;
+}
+transformed parameters {
+  vector[n] theta;
+  theta = mu + tau * eta;
+}
+model {
+  target += normal_lpdf(eta | 0, 1);
+  target += normal_lpdf(y | theta, sigma);
+}
+"
+```
+
+```{r}
+stan_data <- list(n = 8,
+                  y = c(28,  8, -3,  7, -1,  1, 18, 12),
+                  sigma = c(15, 10, 16, 11,  9, 11, 10, 18))
+name_folder = "stan_chkpt_test"
+if(dir.exists(name_folder)){
+  path = paste0("./", name_folder)
+}else{
+  path = create_folder(folder_name = name_folder)
+}
+
+# important: specify the stan_code_path
+stan_code_path = paste0(path, "/stan_model/model.stan")
+
+# run the analysis
+fit_m1 = chkpt_stan(model_code = stan_code, data = stan_data,
+                     iter_warmup = 1000, iter_sampling = 2000,
+                     iter_per_chkpt = 250,
+					 parallel_chains = 1, threads_per = 1,
+					 path = path)
+```
+
+
