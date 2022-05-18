@@ -152,12 +152,12 @@ From: debian:buster-slim
       dirmngr                                \
       libv8-dev                              \
       libnode-dev														 \
-	 		pandoc																 \
-	 		libmagick++-dev												 \
-	 		texlive-latex-base					           \
-	 		texlive-fonts-recommended				       \
-	 		texlive-fonts-extra					           \
-	 		texlive-latex-extra
+      pandoc    														 \
+      libmagick++-dev												 \
+      texlive-latex-base											\
+      texlive-fonts-recommended								\
+      texlive-fonts-extra											\
+      texlive-latex-extra											
 
   apt-get install -y libopenblas-dev r-base-core r-base-dev r-recommended libcurl4-openssl-dev libopenmpi-dev openmpi-bin openmpi-common openmpi-doc openssh-client openssh-server libssh-dev wget cmake g++ python autoconf bzip2 libtool libtool-bin
 
