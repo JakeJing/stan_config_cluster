@@ -92,3 +92,4 @@ fit_m1 = chkpt_stan(model_code = stan_code, data = stan_data,
 
 
 
+
