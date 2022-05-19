@@ -69,9 +69,11 @@ model {
 stan_data <- list(n = 8,
                   y = c(28,  8, -3,  7, -1,  1, 18, 12),
                   sigma = c(15, 10, 16, 11,  9, 11, 10, 18))
+# important: need to check the path for rerun
+# here I assume that the folder will be created in the same directory
 name_folder = "stan_chkpt_test"
 if(dir.exists(name_folder)){
-  path = paste0("./", name_folder)
+  path = paste0("./", name_folder) # important: need to check the path
 }else{
   path = create_folder(folder_name = name_folder)
 }
