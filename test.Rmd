@@ -31,7 +31,7 @@ set_cmdstan_path("~/cmdstan-2.29.2")
 ```
 
 ```{r}
-# pkgs = c("knitr", "ggplot2", 
+# pkgs = c("knitr", "ggplot2",
 #          "gridExtra", "grid",
 #          "dplyr",
 #          "magrittr", "tidyr", "tibble", "rstan", "ape",
@@ -86,7 +86,7 @@ fit_m1 = chkpt_stan(model_code = stan_code, data = stan_data,
                     iter_warmup = 1000, iter_sampling = 2000,
                     iter_per_chkpt = 250,
                     parallel_chains = 1, threads_per = 1,
-                    path = path, 
+                    path = path,
                     # cpp_options = list(stan_opencl = T) # whenever opencl is available
 )
 # unlink(path, recursive = T)

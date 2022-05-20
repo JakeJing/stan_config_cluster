@@ -35,7 +35,9 @@ make build
 
 ### (2) Install the necessary packages
 
-It is important to install some packages like `cmdstanr` and `chkptsatnr`, and it is highly recommended to reinstall the latest cmdstanr to avoid potential incompatiability. **Notice** that `chkpt_stan` function also supports for GPU by setting `cpp_options = list(stan_opencl = T)` inside (see script line 88 in **test.Rmd**).
+It is important to install some packages like `cmdstanr` and `chkptsatnr`, and it is highly recommended to reinstall the latest cmdstanr to avoid potential incompatiability. 
+
+**Notice** that `chkpt_stan` function also supports for GPU by setting `cpp_options = list(stan_opencl = T)` inside (see script line 88 in **test.Rmd**). The advantage of this is that you can easily switch between CPU and GPU runs by comment or uncomment this line, and the job will continue to run at the checkpoints without interruption at all. 
 
 ```bash
 # install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
