@@ -71,11 +71,14 @@ stan_data <- list(n = 8,
                   sigma = c(15, 10, 16, 11,  9, 11, 10, 18))
 # important: need to check the path for rerun
 # here I assume that the folder will be created in the same directory
-name_folder = paste0("Results/checkpoints/", "stan_chkpt_", id, sep = "")
-if(dir.exists(name_folder)){
-  path = name_folder # important: need to check the path
+target_path = "Results/checkpoints/"
+name = paste0("test_chkpt_", id)
+path_to_folder = paste0(target_path, name)
+
+if(dir.exists(path_to_folder)){
+  path = path_to_folder # important: need to check the path
 }else{
-  path = create_folder(folder_name = name_folder)
+  path = create_folder(folder_name = name, path = target_path)
 }
 
 # important: specify the stan_code_path
@@ -85,13 +88,26 @@ stan_code_path = paste0(path, "/stan_model/model.stan")
 fit_m1 = chkpt_stan(model_code = stan_code, data = stan_data,
                     iter_warmup = 1000, iter_sampling = 2000,
                     iter_per_chkpt = 250,
-                    parallel_chains = 1, threads_per = 1,
+                    parallel_chains = 1, 
+                    threads_per = 1,
                     path = path,
                     # cpp_options = list(stan_opencl = T) # whenever opencl is available
 )
 # unlink(path, recursive = T)
 ```
 
-
+```{r check the model and extract posterior estimates}
+if(is.null(fit_m1)){
+  print("The model has already finished!")
+}else{
+  draws <- combine_chkpt_draws(fit_phyinf_sites)
+  # summary(draws) # get rhat and ESS for each variable
+  draw_df = as_draws_df(draws)
+  params_post = subset_draws(draw_df, c("mu"), regex = T) %>%
+    as.data.frame() %>%
+    dplyr::select(starts_with("mu"))
+  saveRDS(params_post, "posterior_estimate.rds")
+}
+```
 
 
