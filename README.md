@@ -75,6 +75,9 @@ module load gcc/9.3.0
 # solution: update cmdstanr by running the following cmd
 install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos"))) 
 
+# error 4: Error in !private$metadata_$save_warmup : invalid argument type
+# solution: (1) delete the local file in cmdstan/make folder; (2) check the input data to make sure the data types matached with the definition, such as integers.
+
 ```
 
 ## 2. Update R version in Ubuntu
